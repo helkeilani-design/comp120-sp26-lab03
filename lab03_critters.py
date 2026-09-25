@@ -252,10 +252,78 @@ class Sloth(Critter):
 
 
 class ScaredCat(Critter):
-    """ Replace this with a docstring for your class. """
+    """
+    Representation of a scaredcat in our world. This class is a child class of the Critter class.
+
+
+    Examples:
+        >>> cat = ScaredCat((2,4))
+        >>> next_move = cat.get_move({Direction.NORTH: None, Direction.EAST: None, Direction.SOUTH: None, Direction.WEST: None})
+        >>> next_move.name
+        'NORTH'
+        >>> str(cat)
+        '!'
+        >>> cat.eat()
+        False
+        >>> fight_move = cat.fight("M")
+        >>> fight_move.name
+        'FORFEIT'
+        >>> cat.get_color()
+        'red'
+
+
+    """
+
 
     def __init__(self, location: tuple[int, int]) -> None:
-        pass
+        super().__init__(location)
+
+
+    def eat(self):
+        """
+        Returns True or False if it wants to eat or not.
+        Always return False because it never eats
+        """
+        return False
+
+
+    # def fight(self, opponent: str) -> Attack:
+    #     """ Gets the fight move, however it will always forfeit """
+    #     return Attack.FORFEIT
+   
+    def get_move(self, neighbors: dict[Direction, str]) -> Direction:
+        """
+            Move in the option order of [North, East, South, West], if someone is in the prioritized direction then choose the next direction to move.
+           
+            Parameters:
+                - neighbors (dict[Direction, str]): the dictionary containing the status of 4 surrounding direction, with the key as the direction and value as the status
+           
+            Returns:
+                - (Direction): the direction that it will move
+        """
+        prioritized_direction = [Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST]
+        for direction in prioritized_direction:
+            if neighbors[direction] == None:
+                return direction # choose that direction if there's no one there
+            else:
+                pass # move on to check the next direction
+        return Direction.CENTER # stay still if no direction is chosen
+
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of this critter.
+        This representation is used when fighting another critter.
+        """
+        return "!"
+
+
+    def get_color(self) -> str:
+        """ Return the color red """
+        return "red"
+
+
+
 
 
 
