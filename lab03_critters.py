@@ -176,9 +176,79 @@ Note: remove the "pass" statement after you start implementing the constructor.
 """
 
 class Sloth(Critter):
-    """ Replace this with a docstring for your class. """
+    """ A sloth in our critter world
+
+    Instance variables:
+    move_number (type:int) - the number of moves the sloth has made so far
+
+    Examples:
+    >>> sid = Sloth((3, 5),3)
+    >>> sid.x
+    3
+    >>> sid.y
+    5
+    >>> str(sid)
+    'S'
+    >>> sid.get_color()
+    'green'
+    """
+    move_number: int
+    
     def __init__(self, location: tuple[int, int], speed: int) -> None:
-        pass
+        super().__init__(location)
+        self.dirs = [Direction.EAST, Direction.CENTER]
+        self.move_number = 0
+        self.speed = speed
+
+    def eat(self)-> bool:
+        "function that determines if the sloth eats or not but since sloth always eats, true always returned"
+        return True
+    
+
+    def fight(self, opponent:str)->Attack:
+        """
+        Function that determines if the sloth will fight and since it always scratches, Attack.SCRATCH is reterned
+        """
+        return Attack.SCRATCH
+    
+    def __str__(self) -> str:
+        """ Returns the string representation of this sloth, which is "S". """
+        return "S"
+    
+    def get_move(self, neighbors: dict[Direction, str]) -> Direction:
+        """
+        Function that gets the direction of movement for the sloth, if the move number is a multiple of the speed then east is returned and otherwise , center is returned 
+        
+        Parameters: 
+        self(type:class object) - the individual sloth
+        neighbors(type:dict[direction, str]) - a dictionary containing key value pairs of directions and strings
+
+        returns east if the move number is a multiple of speed otherwise, center is returned
+
+        Examples:
+
+            >>> sid = Sloth((3, 5),3)
+            >>> moves = []
+            >>> for i in range(6):
+            ...     move = sid.get_move({ Direction.EAST: None, Direction.CENTER: None})
+            ...     moves.append(move.name)
+            >>> moves
+            ['EAST', 'CENTER', 'CENTER', 'EAST', 'CENTER', 'CENTER']
+        """
+        i = self.move_number 
+        if i % self.speed == 0:
+            self.move_number+=1
+            return Direction.EAST
+        else:
+            self.move_number+=1
+            return Direction.CENTER
+    
+    def get_color(self):
+        """
+        Color of the sloth
+        """
+        return 'green'
+
 
 
 class ScaredCat(Critter):
